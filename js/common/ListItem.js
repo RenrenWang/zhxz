@@ -44,8 +44,8 @@ export default class ListIttem extends React.PureComponent{
           {/*<Image  source={{uri:'http://118.178.224.224:6080/appsrv'+data.infoAnnex}} style={{width:this.props.itemHeight-10,height:this.props.itemHeigh-10}}/>*/}
           <View style={{flex:1,flexDirection:'column',justifyContent:'space-between'}}>
                <Text numberOfLines={2} style={{color:'#222',fontSize:16}}>{data.infoTitle}</Text>
-               <Text numberOfLines={1}>{data.infoDescription}</Text>
-                <Text>{Tool.format(data.createDate)}</Text>
+               <Text numberOfLines={1} style={{color:'#999',fontSize:14}}>{data.infoDescription}</Text>
+                <Text style={{color:'#999',fontSize:14}}>{Tool.format(data.createDate)}</Text>
                {/*<View style={{flex:1,marginTop:6,flexDirection:'row'}}>
                      <Text style={{color:'#999'}}>销量：{data.prdNums}</Text>
                      <Text style={{color:'#999',marginLeft:15,textDecorationLine:'line-through'}}>原价：{data.prdOldprice}</Text>
