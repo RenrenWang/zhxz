@@ -1,0 +1,233 @@
+import React, { Component } from 'react'
+import {
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    TouchableHighlight,
+    TouchableOpacity,
+    Dimensions,
+    ScrollView,
+    StatusBar,
+    Platform
+
+} from 'react-native'
+import _ from 'lodash';
+import Swiper from 'react-native-swiper'
+import Colors from '../../res/style/colors'
+import CommonStyles from '../../res/style/commonStyles'
+const {width, height} = Dimensions.get('window');
+export default class Home extends React.Component {
+    static navigationOptions = {
+        tabBarLabel: '主页',
+        // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+        tabBarIcon: ({ tintColor }) => (
+            <Image
+                source={require('../../res/images/homeIcon.png')}
+                style={{ tintColor: tintColor, height: 28, width: 28 }}
+            />
+        ),
+    };
+    constructor(props) {
+        super(props)
+        this.state = {
+            swiperShow: false
+        }
+    }
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({
+                swiperShow: true
+            })
+        }, 0)
+    }
+    renderColumn() {
+        let style = {
+            icon: {
+                width: 60,
+                height: 60
+            },
+            font: {
+                fontSize: 16,
+                color: "#fff"
+            },
+            item: {
+
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }
+        }
+        return (
+            <View style={{marginBottom:8, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.mianColor }}>
+                <View style={[style.item, { borderRightWidth: 1, borderColor: '#fff' }]}>
+                    <Image style={style.icon} source={require('../../res/images/xclp.png')} />
+                    <Text style={style.font}>淘乡味</Text>
+                </View>
+                <View style={style.item}>
+                    <Image style={style.icon} source={require('../../res/images/mlcz.png')} />
+                    <Text style={style.font}>魅力村庄</Text>
+                </View>
+            </View>
+        )
+    }
+
+    renderSwiper() {
+        let swiperHeight=160;
+        if (this.state.swiperShow) {
+            return (
+
+                <Swiper
+                    height={swiperHeight}
+                 
+                    activeDotColor={Colors.mianColor}
+                    horizontal={true}
+                  
+
+                    removeClippedSubviews={false}
+                    dotColor="rgba(255,255,255,0.3)"
+
+                    paginationStyle={{
+                        bottom: 10, left: 0, right: 10
+                    }}
+                   
+                >
+
+                    <View style={{
+                        width,
+                        height: swiperHeight,
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent'
+                    }} key="banner_1">
+
+                        <Image resizeMode="stretch" style={{ width, height: swiperHeight }} source={require('./timg.jpg')} />
+
+                    </View>
+                    <View style={{
+                        width,
+                        height: swiperHeight,
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent'
+                    }} key="banner_1">
+
+                        <Image resizeMode="stretch" style={{ width, height: swiperHeight }} source={require('./timg.jpg')} />
+
+                    </View>
+
+                </Swiper>
+
+            )
+        } else {
+            return <View style={{ width, height: 200, backgroundColor: "#fff" }}></View>
+        }
+    }
+   OpenToUrl(url,title,type){
+      
+        this.props.navigation.navigate(url,{title,type});
+   }
+    renderGrid(){
+        let list=[{
+            icon:require('../../res/images/ZwIcon.png'),
+            title:'政务公开',
+            iconColor:'#2db3e8',
+            toUrl:'OpenPage',
+            type:"V"
+        },
+        {
+            icon:require('../../res/images/DwIcon.png'),
+            title:'党务公开',
+             iconColor:'#06ba8d',
+             toUrl:'OpenPage',
+              type:"D"
+        },
+        {
+            icon:require('../../res/images/CwIcon.png'),
+            title:'财务公开',
+            iconColor:'#f96267',
+            toUrl:'OpenPage',
+            type:"C"
+        },
+        {
+            icon:require('../../res/images/noiceIcon.png'),
+            title:'通知公告',
+             iconColor:'#f2e690',
+              type:"C"
+        },{
+            icon:require('../../res/images/newsIcon.png'),
+            title:'热点新闻',
+             iconColor:'#f2e690',
+              toUrl:'OpenPage',
+               type:"C"
+        }
+        ,{
+            icon:require('../../res/images/helpIcon.png'),
+            title:'邻里帮',
+             iconColor:'#0bb791',
+              toUrl:'OpenPage',
+               type:"C"
+        },
+        {
+            icon:require('../../res/images/hmIcon.png'),
+            title:'惠民服务',
+             iconColor:'#2bb4eb',
+              toUrl:'OpenPage',
+               type:"C"
+        },
+        {
+            icon:require('../../res/images/xcIcon.png'),
+            title:'乡村民宿',
+             iconColor:'#2bb4eb',
+              toUrl:'OpenPage',
+               type:"C"
+        }]
+        return(
+            <View style={{marginTop:8,flexDirection:'row',flexWrap:'wrap',backgroundColor:'#fff'}}>
+                {list.map((item,i)=>{
+                    return <View key={i} style={{borderRightWidth:1,borderBottomWidth:1,borderColor:Colors.hColor,paddingVertical:10,width:width/3}}>
+                    <TouchableOpacity onPress={_.throttle(this.OpenToUrl.bind(this,item.toUrl,item.title,item.type),1000,{
+
+  'trailing': false
+})} style={{flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+                        <Image style={{height:35,width:35,tintColor:item.iconColor }}  source={item.icon}/>
+                        <Text style={{marginTop:5}}>{item.title}</Text>
+                   </TouchableOpacity>
+                 </View>
+                })}
+               
+            </View>
+        )
+    }
+    render() {
+        return (
+            <View style={styles.contaier}>
+           <View
+                    style={{ paddingHorizontal: 10, height: 45, flexDirection: "row", alignItems: 'center', justifyContent: 'space-between', backgroundColor: Colors.mianColor }}>
+                    <TouchableOpacity
+                        activeOpacity={.5}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Image
+                                style={{ height: 30, width: 30, borderColor: '#fff', borderWidth: 2, borderRadius: 15 }}
+                                source={require('../../res/images/logo.png')} />
+                            <Text style={{ marginLeft: 8, fontSize: 16, color: "#fff" }}>智慧乡镇</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                 
+                <ScrollView 
+                style={styles.contaier}
+                scrollEnabled={true}>
+                    {this.renderColumn()}
+                    {this.renderSwiper()}
+                    {this.renderGrid()}
+                </ScrollView>
+            </View>
+        )
+    }
+}
+const styles = StyleSheet.create({
+    contaier: {
+        flex: 1,
+        flexDirection: 'column'
+    }
+})
