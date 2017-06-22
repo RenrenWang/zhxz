@@ -5,7 +5,8 @@ import {
     Text,
     Image,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    Linking
 } from 'react-native'
 import Colors from '../../res/style/colors'
 import Tool from '../util/Tool';
@@ -28,7 +29,11 @@ export default class OpenD extends React.Component {
 
 
     componentDidMount() {
-
+        Linking.getInitialURL().then((url) => {
+            if (url) {
+            console.log('Initial url is: ' + url);
+            }
+        }).catch(err => console.error('An error occurred', err));
         this.getData();
 
     }
@@ -68,7 +73,18 @@ export default class OpenD extends React.Component {
             });
 
     }
+    _handleOpenURL(url){
+        //   let  url="http://blog.csdn.net/pz789as/article/details/53021283";
+        Linking.canOpenURL(url).then(supported => {
+  if (!supported) {
+    console.log('Can\'t handle url: ' + url);
+  } else {
+    return Linking.openURL(url);
+  }
+}).catch(err => console.error('An error occurred', err));
+    }
     render() {
+ 
         let {goBack, state} = this.props.navigation;
 
         let data = (this.state.data);
@@ -92,7 +108,7 @@ export default class OpenD extends React.Component {
                         <View style={{paddingVertical:10,marginTop:15}}>
 
                             {this.state.files.map((item, index) => {
-                            return item.lidType == "A" ? <Text style={{ color: '#1e90ff',fontSize: 16 }} key={index}>{Tool.fileName(item.lidFileuri)}</Text> :
+                            return item.lidType == "A" ? <Text style={{ color: '#1e90ff',fontSize: 16 }} key={index} onPress={()=>this._handleOpenURL('http://121.40.241.28:7070/zhxz/'+item.lidFileuri)}>{Tool.fileName(item.lidFileuri)}</Text> :
                                 <Imege key={index} style={{ flex: 1, height: 300 }} source={{ uri: 'http://121.40.241.28:7070/zhxz/' + item.lidFileuri }} />
                            })}
                         </View>
