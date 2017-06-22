@@ -7,7 +7,7 @@ import {
   Image,
   TextInput,
    TouchableOpacity,
-  
+  StatusBar,
    Platform
 } from 'react-native';
 const STATUS_BAR_HEIGHT=30;
@@ -28,11 +28,11 @@ export default class Navbar extends Component {
   render() {
     return (
  <View style={[styles.navBar,{backgroundColor:this.props.navBarbgColor?this.props.navBarbgColor:'#000'}]}>    
-    {/*<StatusBar
+    <StatusBar
      backgroundColor={this.props.statusBarBg?this.props.statusBarBg:'#000'}
      barStyle="light-content"
-     style={{height:Platform.OS==='ios'?STATUS_BAR_HEIGHT:0,}}
-   /> */}
+     style={{height:Platform.OS==='ios'?STATUS_BAR_HEIGHT:0}}
+   /> 
            {  this.props.navBarLeft?  
               <View style={styles.navBarLeft} >
                  <TouchableOpacity onPress={()=>this.props.navBarLeftAction()}>{/**/}
