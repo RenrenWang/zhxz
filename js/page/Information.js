@@ -59,7 +59,7 @@ export default class Information extends React.Component {
 
                     paginationStyle={{
                            bottom:0, right: 10,
-                           backgroundColor:null
+                          
                          }}
                    
                 >
@@ -68,7 +68,7 @@ export default class Information extends React.Component {
                         width,
                         height: 200,
                         justifyContent: 'center',
-                        backgroundColor: 'transparent'
+                       
                     }} key="banner_1">
 
                         <Image resizeMode="stretch" style={{ width, height: 200 }} source={require('./timg.jpg')} />
@@ -84,7 +84,7 @@ export default class Information extends React.Component {
                     </View>
                
                 </Swiper>
-                <View style={{position:'absolute',bottom:3,width,zIndex:999,height:30,flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:10}}>
+                <View style={{position:'absolute',bottom:3,width,zIndex:999,height:30,flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:10,backgroundColor:'transparent'}}>
                     <Text numberOfLines={1} style={{marginRight:10,fontSize:16,color:"#fff"}}>今日头条今日头条今日头条</Text>
                   
                 </View>
