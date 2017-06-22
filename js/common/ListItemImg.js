@@ -27,7 +27,7 @@ export  default  class ListItemImg extends  React.Component{
         
          return(
              <View
-             style={{marginBottom:15,flexDirection:'column',height:this.props.itemHeight?this.props.itemHeight:210,borderBottomColor:Colors.dColor}}
+             style={{marginBottom:15,flexDirection:'column',height:this.props.itemHeight?this.props.itemHeight:210,borderBottomColor:Colors.dColor,borderBottomWidth:1}}
              >
              <TouchableOpacity>
                    <Image  style={{width,height:this.props.itemHeight-45}} source={{uri:'http://img.taopic.com/uploads/allimg/110901/1720-110Z110394425.jpg'}}/>

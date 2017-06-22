@@ -201,13 +201,36 @@ export default RootScene = StackNavigator({
     OpenD:{
          screen: OpenD,
          navigationOptions: ({navigation}) => ({
-         header:()=><NavBar
-                    title={"公开详情"}
+         header:()=>{
+            //  alert(JSON.stringify(navigation));
+            let type=null;
+             switch(navigation.state.params.type){
+                case 'V':
+                type="政务公开详情";break;
+                case 'D':
+                type="党务公开详情";break;
+                case "C":
+                type="财务公开详情";break;
+                case "Z":
+                type="招工信息详情";break;
+                case "G":
+                type="农业技术支持详情";break;
+               case "R":
+               type="热点新闻详情";break;
+                case "T":
+               type="通知公告详情";break;
+                default:
+                type="详情";break;
+             }
+           return <NavBar
+                    title={type}
                     navBarbgColor={Colors.mianColor}
                     navBarLeft={true}
                     navBarLeftAction={()=>navigation.goBack()}
+                     />
+                }
                  //  navBarRight={() => this._navBarRight()}
-         />,
+        
        }), 
     }
 }, {

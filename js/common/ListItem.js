@@ -24,8 +24,8 @@ export default class ListIttem extends React.PureComponent{
 
    }
  
-  _onPress(id){ 
-     return this.props.navigation.navigate("OpenD", {id});
+  _onPress(id,type){ 
+     return this.props.navigation.navigate("OpenD", {id,type});
    }
   render(){
     let data=this.props.item;
@@ -33,7 +33,7 @@ export default class ListIttem extends React.PureComponent{
     return (
      <TouchableOpacity   
     
-    onPress={_.throttle(this._onPress.bind(this,data.infoId),1000,{
+    onPress={_.throttle(this._onPress.bind(this,data.infoId,data.infoMarked),1000,{
 
     'trailing': false
   })}
@@ -57,7 +57,7 @@ export default class ListIttem extends React.PureComponent{
                </View>
                <Text style={{color:'red',fontSize:20}}><Text style={{color:'red',fontSize:14}}>￥</Text>{data.prdZkprice}</Text>*/}
           </View>
-         {data.infoAnnex&&this.props.showImg?<Image  source={{uri:'http://121.40.241.28:7070/zhxz/'+data.infoAnnex}} style={{marginLeft:10,width:this.props.itemHeight-15,height:this.props.itemHeigh-30}}/>
+           {data.infoAnnex&&this.props.showImg?<Image  source={{uri:'http://121.40.241.28:7070/zhxz/'+data.infoAnnex}} style={{marginLeft:10,width:this.props.itemHeight-15,height:this.props.itemHeigh-30}}/>
           :null}
       </View>
      
