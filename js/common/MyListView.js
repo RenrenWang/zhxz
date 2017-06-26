@@ -18,7 +18,7 @@ import ListItemImg from './ListItemImg';
 import ListItemKm from './ListItemKm';
 import  Colors from '../../res/style/colors'
 import Tool from '../util/Tool';
-
+import CommentItem from './CommentItem'
 const {width, height} = Dimensions.get('window');
 const ITEMHEIGHT = 100;
 export default class MyListView extends React.Component {
@@ -129,8 +129,11 @@ componentDidUpdate(prevProps, prevState){
                      return  this._renderRow_2(item);
                   }else if(this.props.itemType==3){
                      return  this._renderRow_3(item);
-                  }{
-                    return this._renderRow(item);
+                  }else if(this.props.itemType==4){
+                    
+                      return  this._renderRow_4(item);
+                  }else{
+                       return this._renderRow(item);
                   }
                 }
             }
@@ -261,6 +264,12 @@ componentDidUpdate(prevProps, prevState){
      // return (<Text>{item.infoTitle}</Text>)
 
      return <ListItemKm itemHeight={210}    navigation={this.props.navigation} item={item} />
+  }
+ _renderRow_4(item) {
+ //  alert(JSON.stringify(item));
+     // return (<Text>{item.infoTitle}</Text>)
+
+     return  <CommentItem itemHeight={100} item={item}/>;
   }
   // _renderRow_2(item){
   //   return(

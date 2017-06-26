@@ -23,6 +23,7 @@ import Information from './page/Information'
 import TXWHome from './page/TXWHome'
 import TXWCollect from './page/TXWCollect'
 import CharmVillage from './page/CharmVillage'
+import Comment from './page/Comment'
 
 import NavBar from './common/NavBar'
 import Colors from '../res/style/colors'
@@ -106,19 +107,12 @@ const TabScreen = TabNavigator({
     Suggestion: {
         screen: Suggestion,
 
-        navigationOptions: ({navigation}) => ({
-
-
-        })
+   
 
     },
     HotLine: {
         screen: HotLine,
 
-        navigationOptions: ({navigation}) => ({
-
-         
-        })
 
     },
     My: {
@@ -232,7 +226,19 @@ export default RootScene = StackNavigator({
                  //  navBarRight={() => this._navBarRight()}
         
        }), 
-    }
+    },
+       Comment:{
+         screen: Comment,
+        navigationOptions: ({navigation}) => ({
+         header:()=><NavBar
+                    title={"全部评论"}
+                    navBarbgColor={Colors.mianColor}
+                    navBarLeft={true}
+                    navBarLeftAction={()=>navigation.goBack()}
+                 //  navBarRight={() => this._navBarRight()}
+         />,
+       }), 
+    },
 }, {
         //Android页面左右切入
         headerMode: 'screen',

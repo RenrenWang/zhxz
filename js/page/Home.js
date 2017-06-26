@@ -79,7 +79,7 @@ export default class Home extends React.Component {
 
                             'trailing': false
                         })}
-                        style={[style.item, { borderRightWidth: .5, borderColor: '#fff' }]}
+                        style={[style.item, { borderRightWidth:0}]}
                         >
                 
                         <Image style={style.icon} source={require('../../res/images/mlcz.png')} />
@@ -223,6 +223,11 @@ export default class Home extends React.Component {
         
         return (
             <View style={styles.contaier}>
+     <StatusBar
+     backgroundColor={Colors.mianColor}
+     barStyle="light-content"
+     style={{height:Platform.OS==='ios'?STATUS_BAR_HEIGHT:0}}
+   /> 
            <View
                     style={{ paddingHorizontal: 10, height: 45, flexDirection: "row", alignItems: 'center', justifyContent: 'space-between', backgroundColor: Colors.mianColor }}>
                     <TouchableOpacity

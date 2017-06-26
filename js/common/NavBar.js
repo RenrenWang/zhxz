@@ -11,6 +11,7 @@ import {
    Platform
 } from 'react-native';
 const STATUS_BAR_HEIGHT=30;
+import  Colors from '../../res/style/colors'
  /*{this.props.title?
                <View  style={styles.navBarCenter}>
                        <Text style={[styles.tips,styles.navBartitleStyle]}>{this.props.title}</Text>
@@ -29,7 +30,7 @@ export default class Navbar extends Component {
     return (
  <View style={[styles.navBar,{backgroundColor:this.props.navBarbgColor?this.props.navBarbgColor:'#000'}]}>    
     <StatusBar
-     backgroundColor={this.props.statusBarBg?this.props.statusBarBg:'#000'}
+     backgroundColor={Colors.mianColor}
      barStyle="light-content"
      style={{height:Platform.OS==='ios'?STATUS_BAR_HEIGHT:0}}
    /> 

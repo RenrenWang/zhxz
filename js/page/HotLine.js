@@ -6,6 +6,7 @@ import{
     Image
 } from  'react-native'
 import Colors  from '../../res/style/colors'
+import NavBar from '../common/NavBar'
 export default class HotLine extends React.Component{
      static navigationOptions = {
     tabBarLabel: '服务热线',
@@ -22,8 +23,14 @@ export default class HotLine extends React.Component{
        }
        render(){
            return(
-               <View>
-                    <Text>home</Text>
+               <View style={{flexDirection:'column'}}>
+                  <NavBar
+                    title={"服务热线"}
+                    navBarbgColor={Colors.mianColor}
+                    navBarLeftAction={() =>goBack()}
+                  //  navBarRight={() => this._navBarRight()}
+                 />
+              
               </View>
            )
        }

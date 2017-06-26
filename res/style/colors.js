@@ -5,5 +5,6 @@ export default {
     dColor:'#dcdcdc',
     f3Color:'#f3f3f3',
     c9Color:'#98999b',
-    defaultFontColor:"#323232"
+    defaultFontColor:"#323232",
+    buleColor:"#05a5d1"
 }

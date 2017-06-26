@@ -37,8 +37,9 @@ export default class TXWHome extends React.Component {
   };
   constructor(props){
     super(props);
+    this.placeholder="搜索";
     this.state={
-        text:"搜索",
+        text:"",
         defaultText:true
     }
   }
@@ -53,6 +54,7 @@ export default class TXWHome extends React.Component {
                  style={{textAlign:"center",color:"#999",borderRadius:5,backgroundColor:'#fff',height: 40,borderColor:"#dcdcdc", borderWidth:1}}
                  onChangeText={(text) => this.setState({text})}
                  value={this.state.text}
+                  placeholder={this.placeholder}
                />
            </View>
              <MyListView
