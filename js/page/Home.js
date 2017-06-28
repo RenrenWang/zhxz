@@ -226,7 +226,7 @@ export default class Home extends React.Component {
      <StatusBar
      backgroundColor={Colors.mianColor}
      barStyle="light-content"
-     style={{height:Platform.OS==='ios'?STATUS_BAR_HEIGHT:0}}
+     style={{height:Platform.OS==='ios'?30:0}}
    /> 
            <View
                     style={{ paddingHorizontal: 10, height: 45, flexDirection: "row", alignItems: 'center', justifyContent: 'space-between', backgroundColor: Colors.mianColor }}>
