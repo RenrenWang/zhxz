@@ -6,11 +6,14 @@ import {
     Image,
     ScrollView,
     TouchableOpacity,
-    Linking
+    Linking,
+    Modal,
+    Platform
 } from 'react-native'
 import Colors from '../../res/style/colors'
 import Tool from '../util/Tool';
 import Loading from '../common/Loading';
+import ImageViewer from 'react-native-image-zoom-viewer';
 export default class OpenD extends React.Component {
 
     constructor(props) {
@@ -22,7 +25,8 @@ export default class OpenD extends React.Component {
             files: [],
             isLoading: true,
             isError: false,
-            msg: "网络加载失败，请稍后重试..."
+            msg: "网络加载失败，请稍后重试...",
+            isModal:false
 
         }
     }
@@ -86,12 +90,17 @@ export default class OpenD extends React.Component {
             }
         }).catch(err => console.error('An error occurred', err));
     }
+    showModal(index){
+            this.setState({
+                isModal:!this.state.isModal
+            })
+    }
     render() {
 
         let {goBack, state} = this.props.navigation;
 
         let data = (this.state.data);
-
+        let images=[];
         return (
             <View style={{ flex: 1 }}>
                 {!this.state.isLoading  ?
@@ -111,14 +120,28 @@ export default class OpenD extends React.Component {
                                 <View style={{ paddingVertical: 10, marginTop: 15 }}>
 
                                     {this.state.files.map((item, index) => {
+                                        if(item.lidType=="M")
+                                        images.push({url:'http://121.40.241.28:7070/zhxz/'+item.lidFileuri});
                                         return item.lidType == "A" ? <Text style={{ color: '#1e90ff', fontSize: 16 }} key={index} onPress={() => this._handleOpenURL('http://121.40.241.28:7070/zhxz/' + item.lidFileuri)}>{Tool.fileName(item.lidFileuri)}</Text>:
+                                           <TouchableOpacity
+                                            onPress={this.showModal.bind(this,index)}>
                                             <Image key={index} style={{ flex: 1, height: 300 }} source={{ uri: 'http://121.40.241.28:7070/zhxz/' + item.lidFileuri }} />
+                                               </TouchableOpacity>
                                     })}
+
+                                      {/*<Modal 
+                                       visible={true}
+                                       transparent={true}
+                                       visible={this.state.isModal} 
+                                       onRequestClose={Platform.OS ==='android'?()=>alert('android'):()=>alert('ios')}
+                                       >
+                                             <ImageViewer imageUrls={images} index={1} />
+                                     </Modal>*/}
                                 </View>
                             </View>
 
                         </ScrollView >
-                        <View style={{ alignItems: 'center', backgroundColor: "#f3Color", flexDirection: 'row', justifyContent: 'center', height: 50, backgroundColor: "#fff", borderTopWidth: 1, borderTopColor: Colors.dColor }}>
+                        <View style={{ alignItems: 'center', backgroundColor: "#f3Color", flexDirection: 'row', justifyContent: 'center', height: 50,backgroundColor: "#fff", borderTopWidth: 1, borderTopColor: Colors.dColor }}>
                             <TouchableOpacity
                               onPress={()=>this._onPress(data.infoId)}
                               style={styles.footerItem}

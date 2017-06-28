@@ -19,6 +19,8 @@ import ListItemKm from './ListItemKm';
 import  Colors from '../../res/style/colors'
 import Tool from '../util/Tool';
 import CommentItem from './CommentItem'
+import HotLineItem from './HotLineItem'
+
 const {width, height} = Dimensions.get('window');
 const ITEMHEIGHT = 100;
 export default class MyListView extends React.Component {
@@ -132,6 +134,9 @@ componentDidUpdate(prevProps, prevState){
                   }else if(this.props.itemType==4){
                     
                       return  this._renderRow_4(item);
+                  }else if(this.props.itemType==5){
+                    
+                      return  this._renderRow_5(item);
                   }else{
                        return this._renderRow(item);
                   }
@@ -176,7 +181,7 @@ componentDidUpdate(prevProps, prevState){
               isFirst: false,
            
               noDate:true,
-              footerText:"没有更多数据",
+              footerText:this.state.isFirst?"无数据":"没有更多数据",
             });
            
          }
@@ -270,6 +275,12 @@ componentDidUpdate(prevProps, prevState){
      // return (<Text>{item.infoTitle}</Text>)
 
      return  <CommentItem itemHeight={100} item={item}/>;
+  }
+   _renderRow_5(item) {
+ //  alert(JSON.stringify(item));
+     // return (<Text>{item.infoTitle}</Text>)
+
+     return  <HotLineItem itemHeight={100} item={item}/>;
   }
   // _renderRow_2(item){
   //   return(

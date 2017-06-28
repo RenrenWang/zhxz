@@ -24,8 +24,13 @@ export default class Information extends React.Component {
 
     constructor(props){
       super(props);
+      this.imgs=[];
+      this.titles=[];
+     this.imgHeight=210
        this.state={
-           swiperIndex:0
+           swiperIndex:1,
+           isSwiper:false
+           
        }
     }
     _onMomentumScrollEnd(e, state) {
@@ -42,13 +47,49 @@ export default class Information extends React.Component {
       <Text style={{fontSize:16,color:"#fff",textAlign:'right',height:30,marginHorizontal:10}}>{index+1}/{total}</Text>
       </View>
      }
+
+     componentDidMount(){
+         if (this.props.navigation.state.params.type=="R") {
+           
+                this.getImgs();
+               
+         }
+     }
+     getImgs(){
+        // 
+        fetch('http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=HR')
+        .then((response) => response.json())
+            .then((responseJson) => {
+                  console.log(responseJson.data)
+                if(responseJson.result == "fail") {
+                   this.imgs=[];
+                }else if(responseJson.result=="success"){
+
+                     this.imgs=responseJson.data;
+                     this.setState({
+                          isSwiper:true
+                     })
+                //       responseJson.data.map((item,index)=>{
+                //     console.log(item);
+                //      this.titles.push(item.lpName);
+                //      this.imgs=
+                //      this.setState({
+                //          isSwiper:true
+                //      })
+                
+                   
+                //   })} 
+                }
+            })
+     }
      _renderHeader() {
-        let swiperHeight=160;
+      
         if (this.props.navigation.state.params.type=="R") {
-            return (
-               <View style={{flex:1,position:'relative'}}> 
+            
+             let imgs=this.imgs;
+            return  (this.state.isSwiper?<View style={{flex:1,position:'relative'}}> 
                 <Swiper
-                    height={200}
+                    height={this.imgHeight}
                     showsPagination={true}
                   //  activeDotColor={Colors.mianColor}
                     horizontal={true}
@@ -64,32 +105,17 @@ export default class Information extends React.Component {
                    
                 >
 
-                    <View style={{
-                        width,
-                        height: 200,
-                        justifyContent: 'center',
-                       
-                    }} key="banner_1">
-
-                        <Image resizeMode="stretch" style={{ width, height: 200 }} source={require('./timg.jpg')} />
-
-                    </View>
-                    <View style={{width, height: 200,justifyContent: 'center',backgroundColor: 'transparent'}} 
-                     key="banner_1"
-                     title={<Text numberOfLines={1}>Big lie behind Nine’s new show</Text>}
-                    >
-
-                        <Image resizeMode="stretch" style={{ width, height: 200 }} source={require('./timg.jpg')} />
-
-                    </View>
-               
+                  
+                
+                 {this.imgs.map((item,index)=> <Image  key={index} style={{ width, height:  this.imgHeight }} source={{uri:'http://121.40.241.28:7070/zhxz/'+item.lpUri}} />
+                 )}
                 </Swiper>
                 <View style={{position:'absolute',bottom:3,width,zIndex:999,height:30,flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:10,backgroundColor:'transparent'}}>
-                    <Text numberOfLines={1} style={{marginRight:10,fontSize:16,color:"#fff"}}>今日头条今日头条今日头条</Text>
+                    <Text numberOfLines={1} style={{marginRight:10,fontSize:16,color:"#fff"}}>{this.titles[this.state.swiperIndex-1]}</Text>
                   
                 </View>
-           </View>
-            )
+           </View>:<View style={{width,height: this.imgHeight}}></View>)
+            
         } else {
             return null;
         }

@@ -5,22 +5,23 @@ import {
   Image
 }from 'react-native'
 import Colors  from '../../res/style/colors'
+import Tool from '../util/Tool';
 export default class CommentItem extends  React.Component {
    constructor(props){
-  super(props)
+       super(props)
    }
 
   render(){
-     
-        return <View style={{flexDirection:'column',height:this.props.itemHeight, backgroundColor: "#fff", flexDirection: 'column', padding: 10, justifyContent: 'space-between', borderBottomColor: Colors.dColor, borderBottomWidth: 1 }}>
+     let  data=this.props.item
+        return <View style={{flexDirection:'column',height:this.props.itemHeight, backgroundColor: "#fff", flexDirection: 'column', padding: 10, justifyContent: 'space-between', borderBottomColor: Colors.dColor, borderBottomWidth: 0 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image style={{ height: 35, width: 35, tintColor: Colors.c9Color }} source={require('../../res/images/myIcon.png')} />
-                    <Text style={{ fontSize: 16, marginLeft: 15, color: Colors.buleColor }}>用户名</Text>
+                    <Image style={{ height: 35, width: 35, tintColor: Colors.mianColor }} source={require('../../res/images/myIcon.png')} />
+                    <Text style={{ fontSize: 16, marginLeft: 15, color: Colors.buleColor }}>{data.fbPerson}</Text>
                 </View>
-                <Text style={{ fontSize: 16, marginLeft: 15 }}>2017-05-06 13:21</Text>
+                <Text style={{ fontSize: 16, marginLeft: 15 }}>{Tool.format(data.createDate)}</Text>
             </View>
-            <Text style={{ marginTop: 20, fontSize: 16, color: Colors.defaultFontColor }}>{this.props.item.infoTitle}</Text>
+            <Text style={{  fontSize: 16, color: Colors.defaultFontColor }}>{data.fbText}</Text>
         </View>
     }
 }

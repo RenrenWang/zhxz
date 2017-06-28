@@ -7,8 +7,8 @@ import {
 import Colors  from '../../res/style/colors'
 export default class ViewUtil {
 
-
-   static commentItem(item) {
+ 
+   static commentItem() {
         return <View style={{ backgroundColor: "#fff", flexDirection: 'column', padding: 10, justifyContent: 'space-between', borderBottomColor: Colors.dColor, borderBottomWidth: 1 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
