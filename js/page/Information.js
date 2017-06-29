@@ -28,7 +28,7 @@ export default class Information extends React.Component {
       this.titles=[];
      this.imgHeight=210
        this.state={
-           swiperIndex:1,
+           swiperIndex:0,
            isSwiper:false
            
        }
@@ -111,7 +111,7 @@ export default class Information extends React.Component {
                  )}
                 </Swiper>
                 <View style={{position:'absolute',bottom:3,width,zIndex:999,height:30,flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:10,backgroundColor:'transparent'}}>
-                    <Text numberOfLines={1} style={{marginRight:10,fontSize:16,color:"#fff"}}>{this.titles[this.state.swiperIndex-1]}</Text>
+                    <Text numberOfLines={1} style={{marginRight:10,fontSize:16,color:"#fff"}}>{this.imgs[this.state.swiperIndex]['lpName']}</Text>
                   
                 </View>
            </View>:<View style={{width,height: this.imgHeight}}></View>)

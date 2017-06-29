@@ -73,7 +73,7 @@ export default class OpenPage extends React.Component {
             pId: 0,
             sId: 0,
             all: true,
-            list: [],
+            list:[],
             villList: [],
             _townId:0
         }
@@ -146,17 +146,18 @@ export default class OpenPage extends React.Component {
 
     }
     selectFilter(townId, i) {
-        if (i == "all") {
+        if (townId== "all"||i == "all") {
             this.setState({
                 all: true,
                _townId:0,
                sId:0,
+               showFNumber:0,
                 showSub:false
             })
-        } else {
+        } else{
             this.getVillList(townId);
             this.setState({
-              
+                 _townId:townId,
                 showFNumber: i,
                 all: false,
                 sId:0,
@@ -171,11 +172,11 @@ export default class OpenPage extends React.Component {
         this.setState({
 
             showSub: false,
-            sId
-          
+            sId,
+           _townId:0,
 
         });
-      
+     
     }
 
     /*renderFilterSub(){
@@ -197,14 +198,14 @@ export default class OpenPage extends React.Component {
         // this.state.list.map((item, i) => {
         //     sublist.push(<FilterSub sub={item['sub']} key={i} index={i} active={this.selectSub.bind(this)} show={this.state.showFNumber == i} />)
         // })
-        console.log(JSON.stringify(this.state.villList));
+      //  console.log(JSON.stringify(this.state.villList));
         return (
             <View style={{ flexDirection: "column", position: 'relative' }}>
                 <View style={{ zIndex: 2, height: 50, flexDirection: "row", alignItems: 'center', backgroundColor: '#fff', borderBottomWidth: 2, borderBottomColor: Colors.hColor }}>
-                    <TouchableOpacity onPress={() => this.selectFilter("all")} style={{ flex: 1, flexDirection: "column", justifyContent: 'center' }}>
+                    {/*<TouchableOpacity onPress={() => this.selectFilter("all")} style={{ flex: 1, flexDirection: "column", justifyContent: 'center' }}>
                         <Text style={{ color: this.state.all ? Colors.mianColor : "#222", textAlign: 'center', fontSize: 14 }} >全部</Text>
                   
-                    </TouchableOpacity>
+                    </TouchableOpacity>*/}
 
                     {
                         this.state.list.map((item, i) => {
@@ -219,15 +220,15 @@ export default class OpenPage extends React.Component {
                 </View>
 
 
-                <View style={{
+                {/*<View style={{
                     shadowColor: '#000',
                     shadowOffset: { width: 1, height: 15 },
                     shadowOpacity: 0.4,
                     shadowRadius: 1,
                     elevation: 2, flexDirection: "column", position: 'absolute', zIndex: 1, top: 50, transform: [{ translateY: !this.state.all && this.state.showSub ? 0 : -999 }]
-                }}>
-                    <FilterSub sub={this.state.villList}  active={this.selectSub.bind(this)} />
-                </View>
+                }}>*/}
+                   {this.state.showSub? <FilterSub sub={this.state.villList}  active={this.selectSub.bind(this)} />:null}
+                {/*</View>*/}
 
 
             </View>
@@ -247,14 +248,14 @@ export default class OpenPage extends React.Component {
                 />
                
                
-               {/*{this.renderFilter()} */}
-             
-               <SelectBox/>
+              {this.renderFilter()} 
+        
+               {/*<SelectBox/>*/}
                 <MyListView
                     // swipeEnabled={true}
                     // animationEnabled={true}
                     // removeClippedSubviews={false}
-                    url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=" + state.params.type + (this.state._townId != 0 ? "&townId=" + this.state._townId : "") + (this.state.sId != 0 ? "&villId=" + this.state.sId : "")}
+                    url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=" + state.params.type + (this.state._townId != 0 ? "&townId=" + this.state._townId: "") + (this.state.sId!=0? "&villId=" + this.state.sId: "")}
                     navigation={this.props.navigation}
                     showImg={false}
                 />

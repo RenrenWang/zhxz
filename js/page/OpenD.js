@@ -8,12 +8,15 @@ import {
     TouchableOpacity,
     Linking,
     Modal,
-    Platform
+    Platform,
+    Dimensions
 } from 'react-native'
+import _ from 'lodash';
 import Colors from '../../res/style/colors'
 import Tool from '../util/Tool';
 import Loading from '../common/Loading';
 import ImageViewer from 'react-native-image-zoom-viewer';
+const {width, height} = Dimensions.get('window');
 export default class OpenD extends React.Component {
 
     constructor(props) {
@@ -45,9 +48,9 @@ export default class OpenD extends React.Component {
         if (this.cancelable)
             this.cancelable.cancel();
     }
-   _onPress(id){ 
+   toComment(id){ 
       
-     return this.props.navigation.navigate("Comment", {id});
+     return this.props.navigation.navigate("Comment",{id,type:this.props.navigation.state.params.type});
    }
     getData() {
 
@@ -90,10 +93,13 @@ export default class OpenD extends React.Component {
             }
         }).catch(err => console.error('An error occurred', err));
     }
-    showModal(index){
+    _setModalVisible(visible){
             this.setState({
-                isModal:!this.state.isModal
+                isModal:visible
             })
+    }
+    _faillmageSource(url){
+            alert(url);
     }
     render() {
 
@@ -121,29 +127,33 @@ export default class OpenD extends React.Component {
 
                                     {this.state.files.map((item, index) => {
                                         if(item.lidType=="M")
-                                        images.push({url:'http://121.40.241.28:7070/zhxz/'+item.lidFileuri});
+                                        images.push({url:'http://121.40.241.28:7070/zhxz'+item.lidFileuri});
                                         return item.lidType == "A" ? <Text style={{ color: '#1e90ff', fontSize: 16 }} key={index} onPress={() => this._handleOpenURL('http://121.40.241.28:7070/zhxz/' + item.lidFileuri)}>{Tool.fileName(item.lidFileuri)}</Text>:
                                            <TouchableOpacity
-                                            onPress={this.showModal.bind(this,index)}>
-                                            <Image key={index} style={{ flex: 1, height: 300 }} source={{ uri: 'http://121.40.241.28:7070/zhxz/' + item.lidFileuri }} />
+                                           key={index}
+                                            onPress={this._setModalVisible.bind(this,true)}>
+                                            <Image  style={{ width:width*0.8,height:width*0.8}} source={{ uri: 'http://121.40.241.28:7070/zhxz/' + item.lidFileuri }} />
                                                </TouchableOpacity>
                                     })}
-
-                                      {/*<Modal 
-                                       visible={true}
-                                       transparent={true}
-                                       visible={this.state.isModal} 
-                                       onRequestClose={Platform.OS ==='android'?()=>alert('android'):()=>alert('ios')}
-                                       >
-                                             <ImageViewer imageUrls={images} index={1} />
-                                     </Modal>*/}
+                                     <Text>{JSON.stringify(images)}</Text>
+                                    {images.length>0?<Modal 
+                                     visible={this.state.isModal}
+                                     transparent={true}
+                                     onRequestClose={() =>{this._setModalVisible(false)}}
+                                     >
+                                            <ImageViewer saveToLocalByLongPres={true} imageUrls={images} />
+                                     </Modal>:null}
+                                      
                                 </View>
                             </View>
 
                         </ScrollView >
                         <View style={{ alignItems: 'center', backgroundColor: "#f3Color", flexDirection: 'row', justifyContent: 'center', height: 50,backgroundColor: "#fff", borderTopWidth: 1, borderTopColor: Colors.dColor }}>
                             <TouchableOpacity
-                              onPress={()=>this._onPress(data.infoId)}
+                              onPress={_.throttle(this.toComment.bind(this,data.infoId),1000,{
+
+  'trailing': false
+})}
                               style={styles.footerItem}
                             >
                                 <Image style={styles.icon} source={require('../../res/images/commentIcon.png')} />

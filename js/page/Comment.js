@@ -15,43 +15,83 @@ import {
 import _ from 'lodash';
 import Colors from '../../res/style/colors'
 import CommonStyles from '../../res/style/commonStyles'
-
+import Tool from '../util/Tool';
+import Loading from '../common/Loading';
 const {width, height} = Dimensions.get('window');
 import MyListView from '../common/MyListView'
 export default class Comment extends React.Component {
-    render() {
-        let {goBack, state} = this.props.navigation;
-        return (
-            <View style={{ flexDirection: 'column', backgroundColor: '#fff',flex:1 }}>
-                <View style={{ flexDirection: 'column', paddingVertical: 10, paddingHorizontal: 5, justifyContent: 'space-between', borderBottomColor: Colors.dColor, borderBottomWidth: 1 }}>
-                    <Text numberOfLines={2} style={{ fontSize: 19, color: "#222" }}>标题标题标题标题标题标题标题标题</Text>
+
+     constructor(porps){
+         super(porps);
+         this.state={
+             data:{}
+         }
+     }
+
+     componentDidMount(){
+         this.getImgs()
+     }
+      getImgs(){
+        // 
+        fetch('http://121.40.241.28:7070/zhxz/app/newsAction.action?commentDetail=&affType='+this.props.navigation.state.params.type+'&itemId='+this.props.navigation.state.params.id)
+        .then((response) => response.json())
+            .then((responseJson) => {
+              
+                if(responseJson.result == "fail") {
+                  
+                }else if(responseJson.result=="success"){
+               console.log(responseJson)
+                   this.setState({
+                       data:responseJson
+                   })
+                //       responseJson.data.map((item,index)=>{
+                //     console.log(item);
+                //      this.titles.push(item.lpName);
+                //      this.imgs=
+                //      this.setState({
+                //          isSwiper:true
+                //      })
+                
+                   
+                //   })} 
+                }
+            })
+     }
+
+     _renderHeader(){
+           let  data=this.state.data;
+         return (
+             <View style={{ flexDirection: 'column', backgroundColor: '#fff', paddingVertical: 10, paddingHorizontal: 5, justifyContent: 'space-between', borderBottomColor: Colors.dColor, borderBottomWidth: 1 }}>
+                    <Text numberOfLines={2} style={{ fontSize: 19, color: "#222" }}>{data.infoTitle}</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
-                        <Text>2017-05-06</Text>
-                        <Text>0条评论</Text>
+                        <Text>{Tool.format(data.createDate)}</Text>
+                        {/*<Text>0条评论</Text>*/}
                     </View>
                 </View>
-                {/*<View style={{flexDirection:'column',padding:10,justifyContent:'space-between', borderBottomColor: Colors.dColor, borderBottomWidth: 1}}>
-                              <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                                  <View style={{flexDirection:'row',alignItems:'center'}}>
-                                      <Image  style={{height:35,width:35,tintColor:Colors.c9Color}} source={require('../../res/images/myIcon.png')} />
-                                      <Text style={{fontSize:16,marginLeft:15,color:Colors.buleColor}}>用户名</Text>
-                                  </View>
-                                  <Text style={{fontSize:16,marginLeft:15}}>2017-05-06 13:21</Text>
-                              </View>
-                              <Text style={{marginTop:20,fontSize:16,color:Colors.defaultFontColor}}>评论内容评论内容评论内容评论内容</Text>
-                          </View>*/}
+         )
+     }
+    render() {
+        let {goBack, state} = this.props.navigation;
+     
+   
+        return (
+           <View style={{ flexDirection: 'column', backgroundColor: '#fff',flex:1}}>
+             {this.state.data.result?
+       
           
                 <MyListView
                     // swipeEnabled={true}
                     // animationEnabled={true}
                     // removeClippedSubviews={false}
-                    url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=V&pageno=1&townId=1&villId=1"}
+                    url={'http://121.40.241.28:7070/zhxz/app/newsAction.action?commentDetail=&affType='+this.props.navigation.state.params.type+'&itemId='+this.props.navigation.state.params.id}
                     navigation={this.props.navigation}
                     showImg={false}
                     itemType={4}
-                    
-                />
+                    renderHeader={this._renderHeader.bind(this)}
+                />:
+                <Loading />}
             </View>
+             
         )
     }
 }

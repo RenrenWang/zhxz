@@ -174,14 +174,14 @@ componentDidUpdate(prevProps, prevState){
       .then((responseJson) => {
      
         //responseJson.maxpage
-         if(responseJson.result=="fail"){
+         if(responseJson.result=="fail"||(responseJson.data.length<=0&&responseJson.data)){
            return  this.setState({
               dataSource: this.ds.cloneWithRows(this._data),
               
               isFirst: false,
            
               noDate:true,
-              footerText:this.state.isFirst?"无数据":"没有更多数据",
+              footerText:this.state.isFirst?"暂无数据":"没有更多数据",
             });
            
          }
