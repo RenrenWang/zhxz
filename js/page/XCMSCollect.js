@@ -32,19 +32,10 @@ export default class TXWCollect extends React.Component {
 
   render() {
     return (
-      <ScrollableTabView
-			 // renderTabBar={() => <ScrollableTabBar/>}
-             tabBarBackgroundColor="#fff"
-			  tabBarActiveTextColor={Colors.mianColor}
-			   tabBarInactiveTextColor="#000"
-			   tabBarUnderlineStyle={{backgroundColor:Colors.mianColor,height:3}}
-			   tabBarTextStyle={{fontSize:16}}
-		   >
-            
-                    <SectionContent navigation={this.props.navigation} tabLabel="所有" />
-                    <SectionContent navigation={this.props.navigation} tabLabel="村品" /> 
-                    <SectionContent navigation={this.props.navigation} tabLabel="专场" />
-           </ScrollableTabView>
+        
+                  
+                    <SectionContent navigation={this.props.navigation} />
+         
     );
   }
 }

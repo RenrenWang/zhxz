@@ -11,8 +11,11 @@ import {
     Text,
     View,
     Button,
-    Image
+    Image,
+    AsyncStorage,
+    DeviceEventEmitter
 } from 'react-native';
+import WelcomePage from './page/WelcomePage'
 import Home from './page/Home'
 import Suggestion from './page/Suggestion'
 import HotLine from './page/HotLine'
@@ -22,27 +25,98 @@ import OpenD from './page/OpenD'
 import Information from './page/Information'
 import TXWHome from './page/TXWHome'
 import TXWCollect from './page/TXWCollect'
+import PutUp from './page/PutUp'
+import XCMSCollect from './page/XCMSCollect'
+
 import CharmVillage from './page/CharmVillage'
 import Comment from './page/Comment'
+import Login from './page/Login'
+import Register from './page/Register'
+import ResetPassword from './page/ResetPassword'
+import UserInfo from './page/UserInfo'
 
 import NavBar from './common/NavBar'
 import Colors from '../res/style/colors'
 // import WelcomePage from './page/WelcomePage'
-
+import Storage from 'react-native-storage';
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyleInterpolator';
+import { NavigationActions } from 'react-navigation'
 
-class setUp extends Component {
-    render() {
-        return (
-            <View>
+global.storage=new Storage({
+  // 最大容量，默认值1000条数据循环存储
+  size: 1000,
 
-                <Text>RootScene</Text>
-            </View>
-        );
+  // 存储引擎：对于RN使用AsyncStorage，对于web使用window.localStorage
+  // 如果不指定则数据只会保存在内存中，重启后即丢失
+  storageBackend: AsyncStorage,
+    
+  // 数据过期时间，默认一整天（1000 * 3600 * 24 毫秒），设为null则永不过期
+  defaultExpires: 1000 * 3600 * 24*30,
+    
+  // 读写时在内存中缓存数据。默认启用。
+  enableCache: true,
+    
+  // 如果storage中没有相应数据，或数据已过期，
+  // 则会调用相应的sync方法，无缝返回最新数据。
+  // sync方法的具体说明会在后文提到
+  // 你可以在构造函数这里就写好sync的方法
+  // 或是写到另一个文件里，这里require引入
+  // 或是在任何时候，直接对storage.sync进行赋值修改
+  
+})  
+
+
+const XCMS = TabNavigator({
+    PutUp: {
+        screen: PutUp,
+
+        navigationOptions: ({navigation}) => ({
+     
+
+        })
+
+    },
+    XCMSCollect: {
+        screen: XCMSCollect,
+
+        navigationOptions: ({navigation}) => ({
+
+
+        })
+
     }
-}
 
+
+
+},
+    {
+        tabBarComponent: TabBarBottom,
+        tabBarPosition: 'bottom',
+
+        lazy: true,
+        // initialRouteName: "Home",
+        swipeEnabled: false,
+
+        animationEnabled: false,
+        tabBarOptions: {
+
+            style: {
+                height: 50,
+            },
+            showIcon: true,
+            indicatorStyle: { height: 0 },
+
+            //activeBackgroundColor:"#e64275",
+            activeTintColor: Colors.mianColor,
+            labelStyle: {
+                fontSize: 13
+            }
+        }
+    }
+
+
+);
 const TXW = TabNavigator({
     TXWHome: {
         screen: TXWHome,
@@ -155,7 +229,7 @@ const TabScreen = TabNavigator({
 
 );
 
-export default RootScene = StackNavigator({
+const RootScene = StackNavigator({
     // WelcomePage: {
     //   screen: WelcomePage,
     // },
@@ -180,6 +254,19 @@ export default RootScene = StackNavigator({
          />,
        }), 
     },
+    XCMS:{
+           screen: XCMS,
+       navigationOptions: ({navigation}) => ({
+         header:()=><NavBar
+                    title={navigation.state.index==0?"乡村民宿":"收藏"}
+                    navBarbgColor={Colors.mianColor}
+                    navBarLeft={true}
+                    navBarLeftAction={()=>navigation.goBack()}
+                 //  navBarRight={() => this._navBarRight()}
+         />,
+       }), 
+    },
+
     CharmVillage:{
          screen: CharmVillage,
         navigationOptions: ({navigation}) => ({
@@ -239,9 +326,59 @@ export default RootScene = StackNavigator({
          />,
        }), 
     },
+     Login:{
+         screen: Login,
+        /*navigationOptions: ({navigation}) => ({
+         header:()=><NavBar
+                    title={"登录"}
+                    navBarbgColor={Colors.mianColor}
+                    navBarLeft={false}
+                    navBarLeftAction={()=>navigation.goBack()}
+                 //  navBarRight={() => this._navBarRight()}
+         />,
+       }), */
+    },
+      Register:{
+         screen: Register,
+        navigationOptions: ({navigation}) => ({
+         header:()=><NavBar
+                    title={"用户注册"}
+                    navBarbgColor={Colors.mianColor}
+                    navBarLeft={true}
+                    navBarLeftAction={()=>navigation.goBack()}
+                 //  navBarRight={() => this._navBarRight()}
+         />,
+       }), 
+    },
+    ResetPassword:{
+         screen: ResetPassword,
+        navigationOptions: ({navigation}) => ({
+         header:()=><NavBar
+                    title={"修改密码"}
+                    navBarbgColor={Colors.mianColor}
+                    navBarLeft={true}
+                    navBarLeftAction={()=>navigation.goBack()}
+                 //  navBarRight={() => this._navBarRight()}
+         />,
+       }), 
+    },
+    
+     UserInfo:{
+      screen: UserInfo,
+        navigationOptions: ({navigation}) => ({
+         header:()=><NavBar
+                    title={"个人中心"}
+                    navBarbgColor={Colors.mianColor}
+                    navBarLeft={true}
+                    navBarLeftAction={()=>navigation.goBack()}
+                 //  navBarRight={() => this._navBarRight()}
+         />,
+       }), 
+    }
 }, {
         //Android页面左右切入
         headerMode: 'screen',
+        initialRouteName:'TabScreen',
         // transitionConfig:()=>({
         //     screenInterpolator:CardStackStyleInterpolator.forHorizontal, 
         // }),
@@ -253,10 +390,48 @@ export default RootScene = StackNavigator({
     });
 
 
-const styles = StyleSheet.create({
-    icon: {
-        width: 26,
-        height: 26,
-    },
-});
 
+
+
+export default  class setUp extends Component {
+      constructor(props){
+          super(props)
+          this.state={
+                user:null
+              
+          }
+      }
+
+       componentWillMount(){
+          this.subscription = DeviceEventEmitter.addListener('userNameDidChange',(user) => {
+                  this.setState({
+                        user:user
+                  })
+            })
+      
+          storage.load({
+            key: 'user',
+        }).then(ret => {
+          
+          this.setState({
+
+               user:ret
+               
+          })
+        }).catch(err => {
+            alert("未登入");
+
+        })
+           
+    }
+    componentWillUnmount() {
+        // 移除
+        this.subscription.remove();
+        }
+    render() {
+       alert(JSON.stringify(this.state.user));
+        return (
+             <RootScene  screenProps={{user:this.state.user}}/>
+        );
+    }
+}

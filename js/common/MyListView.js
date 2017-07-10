@@ -20,6 +20,7 @@ import  Colors from '../../res/style/colors'
 import Tool from '../util/Tool';
 import CommentItem from './CommentItem'
 import HotLineItem from './HotLineItem'
+import XCMXItem from './XCMXItem'
 
 const {width, height} = Dimensions.get('window');
 const ITEMHEIGHT = 100;
@@ -126,9 +127,9 @@ componentDidUpdate(prevProps, prevState){
          })}
           dataSource={this.state.dataSource}
           {...this.props}
-          renderRow={(item)=>{
+          renderRow={(item,sectionId,rowId)=>{
                   if(this.props.itemType==2){
-                     return  this._renderRow_2(item);
+                     return  this._renderRow_2(item,rowId);
                   }else if(this.props.itemType==3){
                      return  this._renderRow_3(item);
                   }else if(this.props.itemType==4){
@@ -137,6 +138,9 @@ componentDidUpdate(prevProps, prevState){
                   }else if(this.props.itemType==5){
                     
                       return  this._renderRow_5(item);
+                  }else if(this.props.itemType==6){
+                    
+                      return  this._renderRow_6(item);
                   }else{
                        return this._renderRow(item);
                   }
@@ -218,10 +222,11 @@ componentDidUpdate(prevProps, prevState){
   }
   
   _renderSeparator (sectionID, rowID, adjacentRowHighlighted){
+    
      return <View style={{height: 1, backgroundColor: '#eeeeee' }} key={`${sectionID}-${rowID}`} />;
   }
  _renderSeparator_2 (sectionID, rowID, adjacentRowHighlighted){
-     
+    
      return null;
   }
   _renderFooter() {
@@ -258,11 +263,11 @@ componentDidUpdate(prevProps, prevState){
 
      return <ListItem itemHeight={ITEMHEIGHT}  showImg={this.props.showImg}   navigation={this.props.navigation} item={item} />
   }
-    _renderRow_2(item) {
+    _renderRow_2(item,rowId) {
  //  alert(JSON.stringify(item));
      // return (<Text>{item.infoTitle}</Text>)
 
-     return <ListItemImg itemHeight={210}    navigation={this.props.navigation} item={item} />
+     return <ListItemImg itemHeight={210}   index={rowId}   navigation={this.props.navigation} item={item} />
   }
       _renderRow_3(item) {
  //  alert(JSON.stringify(item));
@@ -282,6 +287,14 @@ componentDidUpdate(prevProps, prevState){
 
      return  <HotLineItem itemHeight={100} item={item}/>;
   }
+
+   _renderRow_6(item) {
+ //  alert(JSON.stringify(item));
+     // return (<Text>{item.infoTitle}</Text>)
+
+     return  <XCMXItem itemHeight={210} item={item}/>;
+  }
+  
   // _renderRow_2(item){
   //   return(
   //     <ListItemShop itemHeight={ITEMHEIGHT} item={item} />

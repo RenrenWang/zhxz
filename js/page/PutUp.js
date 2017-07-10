@@ -26,7 +26,7 @@ import MyListView from '../common/MyListView'
 const {width, height} = Dimensions.get('window');
 export default class TXWHome extends React.Component {
   static navigationOptions = {
-    tabBarLabel: '淘乡味',
+    tabBarLabel: '乡村民宿',
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     tabBarIcon: ({ tintColor }) => (
       <Image
@@ -37,7 +37,7 @@ export default class TXWHome extends React.Component {
   };
   constructor(props){
     super(props);
-    this.placeholder="搜索";
+    // this.placeholder="搜索";
     this.state={
         text:"",
         defaultText:true
@@ -48,7 +48,7 @@ export default class TXWHome extends React.Component {
       
     return (
       <View style={styles.contaier}>
-           <View style={{backgroundColor:'#eee',padding:10}}>
+           {/*<View style={{backgroundColor:'#eee',padding:10}}>
                <TextInput
                 underlineColorAndroid='transparent'
                  style={{textAlign:"center",color:"#999",borderRadius:5,backgroundColor:'#fff',height: 40,borderColor:"#dcdcdc", borderWidth:1}}
@@ -56,15 +56,15 @@ export default class TXWHome extends React.Component {
                  value={this.state.text}
                   placeholder={this.placeholder}
                />
-           </View>
+           </View>*/}
              <MyListView
                     // swipeEnabled={true}
                     // animationEnabled={true}
                     // removeClippedSubviews={false}
-                    url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=TF&isCollentFlag=N"}
+                    url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=ML&isCollentFlag=N"}
                     navigation={this.props.navigation}
                     showImg={false}
-                    itemType={2}
+                    itemType={6}
            />
       </View>
     );

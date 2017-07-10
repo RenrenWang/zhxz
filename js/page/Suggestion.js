@@ -6,7 +6,8 @@ import {
     Image,
     TextInput,
     Button,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native'
 import Colors from '../../res/style/colors'
 import NavBar from '../common/NavBar'
@@ -28,24 +29,110 @@ export default class Suggestion extends React.Component {
         this.placeholder = "请输入您的问题或建议"
         this.state = {
             text: "",
+            isMe:false,
+            userId:null,
+            username:null,
+            url:"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=FL"
         }
     }
+componentDidMount(){
+  storage.load({
+            key: 'user',
+            }).then(ret => {
+       
+            this.setState({
+                username:ret.pinfoName,
+                userId:ret.pinfoId
+            })
+        }).catch(err => {
+           
+           // this.toUrl('Login')
+        })
+}
+   
+
+   lookMe(){
+        if(!this.state.userId){
+        return Alert.alert(
+                '提示',
+                '未登录，请先登录',
+                [
+                    // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+                    // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                    { text: '确定', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: false }
+            );
+        }
+
+        let  strUser=this.state.isMe?'':'&fbUserid='+this.state.userId;
+         this.setState({
+             isMe:!this.state.isMe,
+             url:'http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=FL'+strUser
+         })
+      
+       
+   }
     _submit(){
+
+             if(!this.state.userId){
+        return Alert.alert(
+                '提示',
+                '未登录，请先登录',
+                [
+                    // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+                    // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                    { text: '确定', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: false }
+            );
+        }
         if(this.state.text!=""||this.state.text.length>0){
             if(this.state.text.length<50){
-                    alert(this.state.text);    
+                   
+                this.setState({
+                   text:"",
+                    url:'http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=MD&fbText='+this.state.text+'&fbPerson='+this.state.username+'&fbUserid='+this.state.userId
+                })
+    //    fetch(')
+    //         .then((response) => response.json())
+    //         .then((responseJson) => {
+    //             console.log(JSON.stringify(responseJson));
+
+
+    //             if (responseJson.result == 'fail') {}
+    //                })
+
             }else{
-               alert("字数不能超过50个字");   
+
+                  return Alert.alert(
+                '提示',
+                '字数不能超过50个字',
+                [
+                    // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+                    // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                    { text: '确定', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: false }
+            );
+              
             }
         }else{
-            alert("内容不能为空");
+           
+               return Alert.alert(
+                '提示',
+                '内容不能为空',
+                [
+                    // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+                    // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                    { text: '确定', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: false }
+            );
         }
-       
-        // fetch('http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=MD&fbText='+this.state.text+'&fbPerson='+this.state.fbPerson+'&fbUserid=1')
-        // .then((response) => response.json())
-        // .then((responseJson) => {
-               
-        // })
+
+          
+      
         
    }
     _renderHeader() {
@@ -71,15 +158,19 @@ export default class Suggestion extends React.Component {
                onPress={this._submit.bind(this)}
                activeOpacity={1}
                > 
-                   <Text style={{color:'#fff',fontSize:18,margin: 15,paddingVertical:10,textAlign:'center',backgroundColor:Colors.mianColor,borderRadius:5}}>提交</Text>
+                   <Text style={{color:'#fff',fontSize:18,margin: 15,paddingVertical:12,textAlign:'center',backgroundColor:Colors.mianColor,borderRadius:5}}>提交</Text>
                </TouchableOpacity>
                 <View style={{ flexDirection: 'column',  flex: 1 }}>
                     <View
                         style={{ paddingHorizontal: 8, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 50, backgroundColor: "#fff", borderBottomWidth: 1, borderTopWidth: 1, borderColor: Colors.dColor, }}
                     >
                         <Text style={{ fontSize: 16, color: Colors.defaultFontColor }}>反馈信息</Text>
-
-                        <Text style={{ fontSize: 16, color: Colors.buleColor }}>我的</Text>
+                      <TouchableOpacity
+                            onPress={this.lookMe.bind(this)}
+                            activeOpacity={1}
+                            >  
+                        {this.state.isMe? <Text style={{ fontSize: 16, color: Colors.buleColor }}>全部</Text>:<Text style={{ fontSize: 16, color: Colors.buleColor }}>我的</Text>}
+                  </TouchableOpacity>
                     </View>
 
 
@@ -106,7 +197,7 @@ export default class Suggestion extends React.Component {
                     // animationEnabled={true}
                     // removeClippedSubviews={false}
                     renderHeader={this._renderHeader.bind(this)}
-                    url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=FL"}//fbUserid=1
+                    url={this.state.url}//fbUserid=1
                     navigation={this.props.navigation}
                     showImg={false}
                     itemType={4}

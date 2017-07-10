@@ -207,16 +207,22 @@ export default class OpenPage extends React.Component {
                   
                     </TouchableOpacity>*/}
 
-                    {
+                    {/*{
                         this.state.list.map((item, i) => {
                             return (
                                 <TouchableOpacity onPress={() => this.selectFilter(item.townId, i)} key={i} style={{ flex: 1, flexDirection: "column", justifyContent: 'center' }}>
                                     <Text style={{ color: (i == this.state.showFNumber) ? Colors.mianColor : "#222", textAlign: 'center', fontSize: 14 }} >{item.townTitle}</Text>
-                                    {/*{this.state.pId==i?<Text style={{textAlign:'center',fontSize:12}}>{item['sub'][this.state.sId]['name']}</Text>:null}*/}
+                                   {this.state.pId==i?<Text style={{textAlign:'center',fontSize:12}}>{item['sub'][this.state.sId]['name']}</Text>:null}
                                 </TouchableOpacity>
                             )
                         })
-                    }
+                    }*/}
+                     <TouchableOpacity onPress={() => this.selectFilter(item.townId, i)} key={i} style={{ flex: 1, flexDirection: "column", justifyContent: 'center' }}>
+                                    <Text style={{ color: (i == this.state.showFNumber) ? Colors.mianColor : "#222", textAlign: 'center', fontSize: 14 }} >{this.props.screenProps.user.townTitle}</Text>
+                                  
+                   </TouchableOpacity>
+
+
                 </View>
 
 

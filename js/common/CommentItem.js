@@ -14,15 +14,16 @@ export default class CommentItem extends  React.Component {
   render(){
      let  data=this.props.item
      let commentType=data.pinfoName?true:false;
+     
         return <View style={{flexDirection:'column',height:this.props.itemHeight, backgroundColor:"#fff",flexDirection:'column', padding: 10, justifyContent: 'space-between', borderBottomColor: Colors.dColor, borderBottomWidth: 0 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image style={{ height: 35, width: 35, tintColor: Colors.mianColor }} source={require('../../res/images/myIcon.png')} />
-                    <Text style={{ fontSize: 16, marginLeft: 15, color: Colors.buleColor }}>{commentType?data.pinfoName:data.fbPerson}</Text>
+                    <Text style={{ fontSize: 16, marginLeft: 10, color: Colors.buleColor }}>{commentType?data.pinfoName:data.fbPerson}</Text>
                 </View>
-                <Text style={{ fontSize: 16, marginLeft: 15 }}>{Tool.format(data.createDate)}</Text>
+                <Text style={{ fontSize: 16, marginLeft: 15 }}>{data.commDate?Tool.format(data.commDate):Tool.format(data.createDate)}</Text>
             </View>
-            <Text style={{  fontSize: 16, color: Colors.defaultFontColor }}>{commentType?data.commText:data.fbText}</Text>
+            <Text style={{  fontSize: 16, color: Colors.defaultFontColor,paddingHorizontal:5 }}>{commentType?data.commText:data.fbText}</Text>
         </View>
     }
 }

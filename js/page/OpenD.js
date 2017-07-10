@@ -17,10 +17,12 @@ import Tool from '../util/Tool';
 import Loading from '../common/Loading';
 import ImageViewer from 'react-native-image-zoom-viewer';
 const {width, height} = Dimensions.get('window');
+import PhotoView from 'react-native-photo-view';
 export default class OpenD extends React.Component {
 
     constructor(props) {
         super(props)
+        this.images=[];
         this.cancelable = null;
         this.state = {
             dataState: true,
@@ -29,8 +31,8 @@ export default class OpenD extends React.Component {
             isLoading: true,
             isError: false,
             msg: "网络加载失败，请稍后重试...",
-            isModal:false
-
+            isModal:false,
+           _images:[]
         }
     }
 
@@ -67,10 +69,17 @@ export default class OpenD extends React.Component {
 
                 } else if (responseJson.result == "success") {
                     console.log("------------" + JSON.stringify(responseJson));
+                        let images=[];
+                      responseJson.attachData.map((item, index) => {
+                        
+                           if(item.lidType=="M")
+                            images.push({url:'http://121.40.241.28:7070/zhxz'+item.lidFileuri});
+                      })
                     this.setState({
                         data: responseJson.data[0],
                         files: responseJson.attachData,
-                        isLoading: false
+                        isLoading: false,
+                        _images:images
                     })
                 }
 
@@ -94,6 +103,8 @@ export default class OpenD extends React.Component {
         }).catch(err => console.error('An error occurred', err));
     }
     _setModalVisible(visible){
+       
+       
             this.setState({
                 isModal:visible
             })
@@ -101,12 +112,15 @@ export default class OpenD extends React.Component {
     _faillmageSource(url){
             alert(url);
     }
+
+
     render() {
 
         let {goBack, state} = this.props.navigation;
 
         let data = (this.state.data);
-        let images=[];
+       
+          this.images=[];
         return (
             <View style={{ flex: 1 }}>
                 {!this.state.isLoading  ?
@@ -126,24 +140,34 @@ export default class OpenD extends React.Component {
                                 <View style={{ paddingVertical: 10, marginTop: 15 }}>
 
                                     {this.state.files.map((item, index) => {
-                                        if(item.lidType=="M")
-                                        images.push({url:'http://121.40.241.28:7070/zhxz'+item.lidFileuri});
+                                     
+                                       if(item.lidType=="M")
+                                       this.images.push({url:'http://121.40.241.28:7070/zhxz'+item.lidFileuri});
+                                      
                                         return item.lidType == "A" ? <Text style={{ color: '#1e90ff', fontSize: 16 }} key={index} onPress={() => this._handleOpenURL('http://121.40.241.28:7070/zhxz/' + item.lidFileuri)}>{Tool.fileName(item.lidFileuri)}</Text>:
                                            <TouchableOpacity
                                            key={index}
-                                            onPress={this._setModalVisible.bind(this,true)}>
-                                            <Image  style={{ width:width*0.8,height:width*0.8}} source={{ uri: 'http://121.40.241.28:7070/zhxz/' + item.lidFileuri }} />
+                                           activeOpacity={1}
+                                            onPress={this._setModalVisible.bind(this,true)}
+                                            style={{alignItems:'center',justifyContent:'center'}}
+                                            >
+                                            <Image  style={{ width:width-15,height:width-15}} source={{ uri: 'http://121.40.241.28:7070/zhxz/' + item.lidFileuri }} />
                                                </TouchableOpacity>
                                     })}
-                                     <Text>{JSON.stringify(images)}</Text>
-                                    {images.length>0?<Modal 
+
+                                
+
+                                     {/*<Text>{JSON.stringify(this.state._images)}</Text>*/}
+                                   <Modal 
                                      visible={this.state.isModal}
                                      transparent={true}
                                      onRequestClose={() =>{this._setModalVisible(false)}}
                                      >
-                                            <ImageViewer saveToLocalByLongPres={true} imageUrls={images} />
-                                     </Modal>:null}
-                                      
+                                     <ImageViewer 
+                                     
+                                        imageUrls={this.images}
+                                        loadingRender={()=><Text style={{color:"#fff"}}>正在加载图片...</Text>} />
+                                     </Modal>
                                 </View>
                             </View>
 
