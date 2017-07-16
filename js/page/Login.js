@@ -190,7 +190,7 @@ export default class Login extends React.Component {
                     {/*<Text onPress={this.toUrl.bind(this, 'ResetPassword')}>忘记密码？</Text>*/}
                    {/*<View style={{flexDirection:'column',alignItems:'flex-end'}}>*/}
                         <Text onPress={this.toUrl.bind(this, 'Register')}>新用户注册</Text>
-                        <Text  style={{marginTop:5}} onPress={this.toUrl.bind(this, 'Home')}>随便看看</Text>
+                        {/*<Text  style={{marginTop:5}} onPress={this.toUrl.bind(this, 'Home')}>随便看看</Text>*/}
                    {/*</View>*/}
                 </View>
             </View>

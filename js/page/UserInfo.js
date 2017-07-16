@@ -100,6 +100,7 @@ export default class UserInfo extends React.Component {
                 {
                     items.map((item, index) => {
                         return <TouchableOpacity
+                        activeOpacity={1}
                         onPress={item.action?item.action:()=>{}}
                          key={index} 
                          style={{ borderBottomColor: "#e2e2e2", borderBottomWidth: items.length - 1 <= index ? 0 : 1, flexDirection: 'row', paddingVertical: 15, justifyContent: 'space-between', alignItems: 'center' }}>
@@ -138,7 +139,7 @@ export default class UserInfo extends React.Component {
             { title: "姓名",text:this.state.pinfoPname },
           
             { title: "性别" ,text:this.state.pinfoSex},
-             { title: "区域" ,text:this.state.townTitle+"-"+this.state.villTitle},
+             { title: "区域" ,text:(this.state.townTitle&&this.state.townTitle!="")?(this.state.townTitle+"-"+this.state.villTitle):""},
               { title: "单位" ,text:this.state.deparTitle},
 
         ];

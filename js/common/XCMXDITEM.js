@@ -23,7 +23,7 @@ export  default  class ListItemImg extends  React.Component{
         super(props);
         
     } _onPress(id){ 
-     return this.props.navigation.navigate("TXWD", {id});
+    // return this.props.navigation.navigate("TXWD", {id});
    }
      render(){
         let data=this.props.item;
@@ -38,13 +38,13 @@ export  default  class ListItemImg extends  React.Component{
     'trailing': false
   })}
              >
-                   <Image  style={{width,height:this.props.itemHeight-45}} source={{uri:'http://121.40.241.28:7070/zhxz/'+data.specAnnex}}/>
+                   <Image  style={{width,height:this.props.itemHeight-45}} source={{uri:'http://121.40.241.28:7070/zhxz/'+data.placesAnnex}}/>
              </TouchableOpacity>
              <View style={{height:45,flexDirection:'row',justifyContent:'space-between',flex:1,backgroundColor:'#fff',paddingHorizontal:10,alignItems:'center'}}>
-                  <Text style={{fontSize:16,color:"#000"}}>{data.specTitle}</Text>
+                  <Text style={{fontSize:16,color:"#000"}}>{data.placesTitle}</Text>
                   <View style={{flexDirection:'row'}}>
-                      <Text style={{fontSize:16,color:'#999'}}>{data.allnums}</Text>
-                      <Image   style={{height:22,width:22,tintColor:"#999"}}  source={require('../../res/images/collectIcon.png')} />
+                      <Text style={{fontSize:18,color:'#999',color:'red'}}>￥{data.placesPrice}</Text>
+                     
                   </View>
              </View>
              </View>

@@ -61,7 +61,7 @@ export default class TXWHome extends React.Component {
                     // swipeEnabled={true}
                     // animationEnabled={true}
                     // removeClippedSubviews={false}
-                    url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=TF&isCollentFlag=N"}
+                    url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=TF"+(this.state.text!=""?("&specName="+this.state.text):"")+"&isCollentFlag=N"}
                     navigation={this.props.navigation}
                     showImg={false}
                     itemType={2}

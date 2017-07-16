@@ -21,7 +21,7 @@ import Tool from '../util/Tool';
 import CommentItem from './CommentItem'
 import HotLineItem from './HotLineItem'
 import XCMXItem from './XCMXItem'
-
+import XCMXDITEM from './XCMXDITEM'
 const {width, height} = Dimensions.get('window');
 const ITEMHEIGHT = 100;
 export default class MyListView extends React.Component {
@@ -78,7 +78,7 @@ componentDidUpdate(prevProps, prevState){
   
       if(prevProps.url!=this.props.url){
       //  alert(this.props.url);
-      
+     
         this.getData();
        
       }
@@ -141,6 +141,9 @@ componentDidUpdate(prevProps, prevState){
                   }else if(this.props.itemType==6){
                     
                       return  this._renderRow_6(item);
+                  }else if(this.props.itemType==7){
+                    
+                      return  this._renderRow_7(item);
                   }else{
                        return this._renderRow(item);
                   }
@@ -170,10 +173,9 @@ componentDidUpdate(prevProps, prevState){
   getData() {
   
     if(!this.state.noDate){
-        
+         
        this.cancelable=Tool.makeCancelable(fetch(this.props.url+'&pageno='+this.page++));
-     
- 
+
        this.cancelable.promise.then((response) => response.json())
       .then((responseJson) => {
      
@@ -269,11 +271,11 @@ componentDidUpdate(prevProps, prevState){
 
      return <ListItemImg itemHeight={210}   index={rowId}   navigation={this.props.navigation} item={item} />
   }
-      _renderRow_3(item) {
+      _renderRow_3(item,rowId) {
  //  alert(JSON.stringify(item));
      // return (<Text>{item.infoTitle}</Text>)
 
-     return <ListItemKm itemHeight={210}    navigation={this.props.navigation} item={item} />
+     return <ListItemKm itemHeight={210}  index={rowId}   navigation={this.props.navigation} item={item} />
   }
  _renderRow_4(item) {
  //  alert(JSON.stringify(item));
@@ -292,9 +294,14 @@ componentDidUpdate(prevProps, prevState){
  //  alert(JSON.stringify(item));
      // return (<Text>{item.infoTitle}</Text>)
 
-     return  <XCMXItem itemHeight={210} item={item}/>;
+     return  <XCMXItem itemHeight={210} navigation={this.props.navigation} item={item}/>;
   }
-  
+  _renderRow_7(item,rowId) {
+ //  alert(JSON.stringify(item));
+     // return (<Text>{item.infoTitle}</Text>)
+
+     return  <XCMXDITEM index={rowId}  itemHeight={210} navigation={this.props.navigation} item={item}/>;
+  }
   // _renderRow_2(item){
   //   return(
   //     <ListItemShop itemHeight={ITEMHEIGHT} item={item} />

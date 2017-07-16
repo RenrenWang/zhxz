@@ -77,7 +77,7 @@ export default class OpenPage extends React.Component {
             villList: [],
             _townId:0
         }
-        this.selectFilter = this.selectFilter.bind(this)
+    //    this.selectFilter = this.selectFilter.bind(this)
     }
 
     getJSON(url) {
@@ -96,7 +96,15 @@ export default class OpenPage extends React.Component {
 
         });
     }
+
     componentDidMount() {
+        // if(this.props.screenProps.user){
+        //      this.setState({
+        //         _townId:this.props.screenProps.user.pinfoTown,
+        //         sId:this.props.screenProps.user.pinfoVill,
+        //    })
+        // }
+    
         // data.data.map((item, i) => {
         //           list.push(item);
         //         this.getJSON('http://121.40.241.28:7070/zhxz/app/baseDataAction.action?&dataType=VILL&townId=' + item.townId)
@@ -125,7 +133,7 @@ export default class OpenPage extends React.Component {
 
     getVillList(townId) {
 
-        this.getJSON('http://121.40.241.28:7070/zhxz/app/baseDataAction.action?dataType=VILL&townId=' + townId)
+        this.getJSON('http://121.40.241.28:7070/zhxz/app/baseDataAction.action?dataType=VILL&townId=' + this.props.screenProps.user.pinfoTown)
             .then((data2) => {
 
                 if (data2.data && data2.data.length > 0) {
@@ -179,9 +187,9 @@ export default class OpenPage extends React.Component {
      
     }
 
-    /*renderFilterSub(){
+   renderFilterSub(){
          return <FilterSub sub={this.state.list[this.state.showFNumber]['sub']}/>;
-        return  <View style={{flexDirection:'row',justifyContent:'center',flexWrap:'wrap',backgroundColor:"#fff",borderTopWidth:1,borderColor:Colors.hColor}}>
+        /*return  <View style={{flexDirection:'row',justifyContent:'center',flexWrap:'wrap',backgroundColor:"#fff",borderTopWidth:1,borderColor:Colors.hColor}}>
                      {
                          
                         this.state.list[this.state.showFNumber]['sub'].map((item,index)=>{
@@ -190,8 +198,8 @@ export default class OpenPage extends React.Component {
                                  </TouchableOpacity>
                          })
                      }
-              </View>
-     }*/
+              </View>*/
+     }
 
     renderFilter() {
         // let sublist = [];
@@ -207,20 +215,23 @@ export default class OpenPage extends React.Component {
                   
                     </TouchableOpacity>*/}
 
-                    {/*{
+                    {
                         this.state.list.map((item, i) => {
+                            if(item.townId!=this.props.screenProps.user.pinfoTown){
+                                return null;
+                            }
                             return (
                                 <TouchableOpacity onPress={() => this.selectFilter(item.townId, i)} key={i} style={{ flex: 1, flexDirection: "column", justifyContent: 'center' }}>
-                                    <Text style={{ color: (i == this.state.showFNumber) ? Colors.mianColor : "#222", textAlign: 'center', fontSize: 14 }} >{item.townTitle}</Text>
-                                   {this.state.pId==i?<Text style={{textAlign:'center',fontSize:12}}>{item['sub'][this.state.sId]['name']}</Text>:null}
+                                    <Text style={{ color: "#222", textAlign: 'center', fontSize: 14 }} >{item.townTitle}</Text>
+                                   {/*{this.state.pId==i?<Text style={{textAlign:'center',fontSize:12}}>{item['sub'][this.state.sId]['name']}</Text>:null}*/}
                                 </TouchableOpacity>
                             )
                         })
-                    }*/}
-                     <TouchableOpacity onPress={() => this.selectFilter(item.townId, i)} key={i} style={{ flex: 1, flexDirection: "column", justifyContent: 'center' }}>
-                                    <Text style={{ color: (i == this.state.showFNumber) ? Colors.mianColor : "#222", textAlign: 'center', fontSize: 14 }} >{this.props.screenProps.user.townTitle}</Text>
+                    }
+                     {/*<TouchableOpacity  style={{ flex: 1, flexDirection: "column", justifyContent: 'center' }}>
+                                    <Text style={{ color: "#222", textAlign: 'center', fontSize: 14 }} >{}</Text>
                                   
-                   </TouchableOpacity>
+                   </TouchableOpacity>*/}
 
 
                 </View>
@@ -241,7 +252,7 @@ export default class OpenPage extends React.Component {
         )
     }
     render() {
-        console.log(this.state.list);
+    
         let {goBack, state} = this.props.navigation;
         return (
            <View style={styles.contaier}>
@@ -254,14 +265,16 @@ export default class OpenPage extends React.Component {
                 />
                
                
-              {this.renderFilter()} 
+              {this.props.screenProps.user.pinfoTown?this.renderFilter():null} 
         
                {/*<SelectBox/>*/}
                 <MyListView
                     // swipeEnabled={true}
                     // animationEnabled={true}
                     // removeClippedSubviews={false}
-                    url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=" + state.params.type + (this.state._townId != 0 ? "&townId=" + this.state._townId: "") + (this.state.sId!=0? "&villId=" + this.state.sId: "")}
+               //     url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=" + state.params.type + (this.state._townId != 0 ? "&townId=" + this.state._townId: "") + (this.state.sId!=0? "&villId=" + this.state.sId: "")}
+            url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=" + state.params.type +"&selTownid=" +(this.props.screenProps.user.pinfoTown?this.props.screenProps.user.pinfoTown: 0) +"&selVillid=" + (this.props.screenProps.user.pinfoVill?this.props.screenProps.user.pinfoVill: 0)}
+
                     navigation={this.props.navigation}
                     showImg={false}
                 />

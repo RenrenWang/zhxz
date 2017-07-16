@@ -34,17 +34,35 @@ export default class Home extends React.Component {
         super(props)
         this.state = {
             swiperShow: false,
-            user:null
+            user:null,
+            imgs:[]
         }
       
     }
-    componentWillMount(){
-       
-         
-    }
+
     componentDidMount() {
-        alert(JSON.stringify(this.props.screenProps.user));
-         if(!this.props.screenProps.user){
+     
+    
+
+      storage.load({
+            key: 'user',
+        }).then(ret => {
+                 
+            fetch('http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=HI')
+.then((response) => response.json())
+            .then((responseJson) => {
+               this.setState({
+                    imgs:responseJson.data
+                  })
+                     setTimeout(() => {
+            this.setState({
+                swiperShow: true
+            })
+        }, 0)
+})      
+        
+          
+        }).catch(err => {
               const resetAction = NavigationActions.reset({
                                         index:0,
                                         actions: [
@@ -52,14 +70,9 @@ export default class Home extends React.Component {
                                         ]
                     })
             this.props.navigation.dispatch(resetAction)
-        }else{
-    setTimeout(() => {
-            this.setState({
-                swiperShow: true
-            })
-        }, 0)
-        }
-   
+
+        })
+       
        
        
     }
@@ -132,27 +145,19 @@ export default class Home extends React.Component {
                     }}
 
                 >
-
-                    <View style={{
+                 {this.state.imgs.map((item,index)=>{
+                  return  <View style={{
                         width,
                         height: swiperHeight,
                         justifyContent: 'center',
                         backgroundColor: 'transparent'
-                    }} key="banner_1">
+                    }} key={index}>
 
-                        <Image resizeMode="stretch" style={{ width, height: swiperHeight }} source={require('./timg.jpg')} />
-
-                    </View>
-                    <View style={{
-                        width,
-                        height: swiperHeight,
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent'
-                    }} key="banner_1">
-
-                        <Image resizeMode="stretch" style={{ width, height: swiperHeight }} source={require('./timg.jpg')} />
+                        <Image  style={{ width, height: swiperHeight }} source={{uri:'http://121.40.241.28:7070/zhxz/'+item.lpUri}} />
 
                     </View>
+                 })}
+                   
 
                 </Swiper>
 

@@ -23,14 +23,22 @@ export  default  class ListItemImg extends  React.Component{
         super(props);
         
     }
+    _onPress(id){ 
+     return this.props.navigation.navigate("CharmVillageD", {id});
+   }
      render(){
         let item=this.props.item
          return(
              <View
-             style={{marginBottom:15,flexDirection:'column',height:this.props.itemHeight?this.props.itemHeight:210,borderBottomColor:"#dcdcdc"}}
+             style={{marginTop:this.props.index==0?0:15,flexDirection:'column',height:this.props.itemHeight?this.props.itemHeight:210,borderBottomColor:"#dcdcdc"}}
              >
-             <TouchableOpacity>
-                   <Image  style={{width,height:this.props.itemHeight-45}} source={{uri:"http://121.40.241.28:7070/zhxz"+item.villAnnex}}/>
+             <TouchableOpacity
+             
+                      onPress={_.throttle(this._onPress.bind(this,item.villId),1000,{
+
+    'trailing': false
+  })}>
+                   <Image  style={{width,height:210-45}} source={{uri:"http://121.40.241.28:7070/zhxz/"+item.villAnnex}}/>
              </TouchableOpacity>
              <View style={{height:45,flexDirection:'row',justifyContent:'space-between',flex:1,backgroundColor:'#fff',paddingHorizontal:10,alignItems:'center'}}>
                   <Text style={{fontSize:16,color:"#000"}}>{item.villTitle}</Text>

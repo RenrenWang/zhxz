@@ -9,7 +9,8 @@ import {
     Linking,
     Modal,
     Platform,
-    Dimensions
+    Dimensions,
+    Share
 } from 'react-native'
 import _ from 'lodash';
 import Colors from '../../res/style/colors'
@@ -32,7 +33,8 @@ export default class OpenD extends React.Component {
             isError: false,
             msg: "网络加载失败，请稍后重试...",
             isModal:false,
-           _images:[]
+           _images:[],
+           result:''
         }
     }
 
@@ -54,6 +56,34 @@ export default class OpenD extends React.Component {
       
      return this.props.navigation.navigate("Comment",{id,type:this.props.navigation.state.params.type});
    }
+
+    _shareText() {
+    Share.share({
+      message: this.state.data.infoDescription,
+      url: 'http://www.hvquan.com/',
+      title: this.state.data.infoTitle
+    }, {
+      dialogTitle: '分享',
+      excludedActivityTypes: [
+        'com.apple.UIKit.activity.PostToTwitter'
+      ],
+      tintColor: 'green'
+    })
+    .then(this._showResult)
+    .catch((error) => this.setState({result: 'error: ' + error.message}));
+  }
+
+  _showResult(result) {
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+        this.setState({result: 'shared with an activityType: ' + result.activityType});
+      } else {
+        this.setState({result: 'shared'});
+      }
+    } else if (result.action === Share.dismissedAction) {
+      this.setState({result: 'dismissed'});
+    }
+  }
     getData() {
 
 
@@ -183,6 +213,7 @@ export default class OpenD extends React.Component {
                                 <Image style={styles.icon} source={require('../../res/images/commentIcon.png')} />
                             </TouchableOpacity>
                             <TouchableOpacity
+                                onPress={this._shareText.bind(this)}
                                 style={styles.footerItem}
                             >
                                 <Image style={styles.icon} source={require('../../res/images/sharIcon.png')} />

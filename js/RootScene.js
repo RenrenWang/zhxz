@@ -25,16 +25,20 @@ import OpenD from './page/OpenD'
 import Information from './page/Information'
 import TXWHome from './page/TXWHome'
 import TXWCollect from './page/TXWCollect'
+import TXWD from './page/TXWD'
 import PutUp from './page/PutUp'
 import XCMSCollect from './page/XCMSCollect'
+import XCMXD from './page/XCMXD'
 
 import CharmVillage from './page/CharmVillage'
+import CharmVillageD from './page/CharmVillageD'
+
 import Comment from './page/Comment'
 import Login from './page/Login'
 import Register from './page/Register'
 import ResetPassword from './page/ResetPassword'
 import UserInfo from './page/UserInfo'
-
+import About from './page/About'
 import NavBar from './common/NavBar'
 import Colors from '../res/style/colors'
 // import WelcomePage from './page/WelcomePage'
@@ -254,6 +258,20 @@ const RootScene = StackNavigator({
          />,
        }), 
     },
+
+    TXWD: {
+      screen: TXWD,
+       navigationOptions: ({navigation}) => ({
+         header:()=><NavBar
+                    title={"淘乡味详情"}
+                    navBarbgColor={Colors.mianColor}
+                    navBarLeft={true}
+                    navBarLeftAction={()=>navigation.goBack()}
+                 //  navBarRight={() => this._navBarRight()}
+         />,
+       }), 
+    },
+    
     XCMS:{
            screen: XCMS,
        navigationOptions: ({navigation}) => ({
@@ -279,6 +297,32 @@ const RootScene = StackNavigator({
          />,
        }), 
     },
+  
+     CharmVillageD:{
+         screen: CharmVillageD,
+        navigationOptions: ({navigation}) => ({
+         header:()=><NavBar
+                    title={"魅力村庄详情"}
+                    navBarbgColor={Colors.mianColor}
+                    navBarLeft={true}
+                    navBarLeftAction={()=>navigation.goBack()}
+                 //  navBarRight={() => this._navBarRight()}
+         />,
+       }),
+     },
+     
+XCMXD:{
+         screen: XCMXD,
+        navigationOptions: ({navigation}) => ({
+         header:()=><NavBar
+                    title={"乡村民宿详情"}
+                    navBarbgColor={Colors.mianColor}
+                    navBarLeft={true}
+                    navBarLeftAction={()=>navigation.goBack()}
+                 //  navBarRight={() => this._navBarRight()}
+         />,
+       }),
+     },
     OpenD:{
          screen: OpenD,
          navigationOptions: ({navigation}) => ({
@@ -307,6 +351,7 @@ const RootScene = StackNavigator({
                     title={type}
                     navBarbgColor={Colors.mianColor}
                     navBarLeft={true}
+                   
                     navBarLeftAction={()=>navigation.goBack()}
                      />
                 }
@@ -374,7 +419,21 @@ const RootScene = StackNavigator({
                  //  navBarRight={() => this._navBarRight()}
          />,
        }), 
-    }
+    },
+    About:{
+      screen: About,
+        navigationOptions: ({navigation}) => ({
+         header:()=><NavBar
+                    title={"关于我们"}
+                    navBarbgColor={Colors.mianColor}
+                    navBarLeft={true}
+                    navBarLeftAction={()=>navigation.goBack()}
+                 //  navBarRight={() => this._navBarRight()}
+         />,
+       }), 
+    },
+
+    
 }, {
         //Android页面左右切入
         headerMode: 'screen',
@@ -419,7 +478,7 @@ export default  class setUp extends Component {
                
           })
         }).catch(err => {
-            alert("未登入");
+            
 
         })
            
@@ -429,7 +488,7 @@ export default  class setUp extends Component {
         this.subscription.remove();
         }
     render() {
-       alert(JSON.stringify(this.state.user));
+      
         return (
              <RootScene  screenProps={{user:this.state.user}}/>
         );

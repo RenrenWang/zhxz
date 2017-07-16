@@ -46,8 +46,9 @@ export default class Navbar extends Component {
              </View>
             {
                this.props.navBarRight?  
-               <View style={styles.navBarRight} >
-                        {this.props.navBarRight()}
+               <View style={styles.navBarRight}>
+                     
+                          <Text style={[styles.tips,styles.navBartitleStyle]}>dsdsds</Text>
                </View>:null
             }
         </View>
@@ -75,6 +76,7 @@ const styles=StyleSheet.create({
       flexDirection:'row'
     },
     navBarRight:{
+     
        flexDirection:'row'
     },
     selectIcon:{
