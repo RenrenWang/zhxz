@@ -244,7 +244,7 @@ export default class OpenPage extends React.Component {
                     shadowRadius: 1,
                     elevation: 2, flexDirection: "column", position: 'absolute', zIndex: 1, top: 50, transform: [{ translateY: !this.state.all && this.state.showSub ? 0 : -999 }]
                 }}>*/}
-                   {this.state.showSub? <FilterSub sub={this.state.villList}  active={this.selectSub.bind(this)} />:null}
+                   {this.state.showSub? <FilterSub sub={this.state.villList} pinfoVill={this.props.screenProps.user.pinfoVill}  active={this.selectSub.bind(this)} />:null}
                 {/*</View>*/}
 
 
@@ -273,7 +273,7 @@ export default class OpenPage extends React.Component {
                     // animationEnabled={true}
                     // removeClippedSubviews={false}
                //     url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=" + state.params.type + (this.state._townId != 0 ? "&townId=" + this.state._townId: "") + (this.state.sId!=0? "&villId=" + this.state.sId: "")}
-            url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=" + state.params.type +"&selTownid=" +(this.props.screenProps.user.pinfoTown?this.props.screenProps.user.pinfoTown: 0) +"&selVillid=" + (this.props.screenProps.user.pinfoVill?this.props.screenProps.user.pinfoVill: 0)}
+            url={"http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=" + state.params.type +"&selTownid=" +(this.props.screenProps.user.pinfoTown?this.props.screenProps.user.pinfoTown: 0) +"&selVillid=" + (this.props.screenProps.user.pinfoVill?this.props.screenProps.user.pinfoVill: this.state.sId)}
 
                     navigation={this.props.navigation}
                     showImg={false}
@@ -342,13 +342,23 @@ class FilterSub extends React.Component {
     }
     render() {
         //color: index == this.state.showSubNumber ? Colors.mianColor : "#222",
+       
         return (
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', backgroundColor: "#fff", borderBottomWidth: 1, borderBottomColor: Colors.hColor }}>
                 {
                     this.props.sub ? this.props.sub.map((item, index) => {
-                        return <TouchableOpacity onPress={() => this.selectSub(item.villId)} key={index} style={{ paddingVertical: 10, width: width / 5, alignItems: 'center', justifyContent: 'center' }}>
+
+                           if(!this.props.pinfoVill){
+                                 return <TouchableOpacity onPress={() => this.selectSub(item.villId)} key={index} style={{ paddingVertical: 10, width: width / 5, alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{  textAlign: 'center', fontSize: 12 }}>{item.villTitle}</Text>
-                        </TouchableOpacity>
+                            </TouchableOpacity>
+                           }
+                        if(item.villId==this.props.pinfoVill){
+                           return <TouchableOpacity onPress={() => this.selectSub(item.villId)} key={index} style={{ paddingVertical: 10, width: width / 5, alignItems: 'center', justifyContent: 'center' }}>
+                            <Text style={{  textAlign: 'center', fontSize: 12 }}>{item.villTitle}</Text>
+                            </TouchableOpacity>
+                        }
+                        
                     }) : null
 
                 }

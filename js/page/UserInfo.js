@@ -80,7 +80,7 @@ export default class UserInfo extends React.Component {
                         pinfoSex:data.pinfoSex,
                         pinfoPhone:data.pinfoPhone,
                         townTitle:data.townTitle,
-                        villTitle:data.villTitle,
+                        villTitle:data.villTitle?"-"+data.villTitle:"",
                         deparTitle:data.deparTitle
                   })
                 } 
@@ -139,7 +139,7 @@ export default class UserInfo extends React.Component {
             { title: "姓名",text:this.state.pinfoPname },
           
             { title: "性别" ,text:this.state.pinfoSex},
-             { title: "区域" ,text:(this.state.townTitle&&this.state.townTitle!="")?(this.state.townTitle+"-"+this.state.villTitle):""},
+             { title: "区域" ,text:(this.state.townTitle||this.state.townTitle!=""?this.state.townTitle:"")+((this.state.villTitle||this.state.villTitle!=""||this.state.villTitle!="undefined")?this.state.villTitle:"")},//(this.state.townTitle||this.state.townTitle!="")?(this.state.townTitle+"-"+this.state.villTitle):""
               { title: "单位" ,text:this.state.deparTitle},
 
         ];

@@ -38,7 +38,9 @@ export  default  class ListItemImg extends  React.Component{
     'trailing': false
   })}
              >
-                   <Image  style={{width,height:this.props.itemHeight-45}} source={{uri:'http://121.40.241.28:7070/zhxz/'+data.specAnnex}}/>
+                   <Image 
+                  resizeMode="stretch"
+                   style={{width,height:this.props.itemHeight-45}} source={{uri:'http://121.40.241.28:7070/zhxz/'+data.specAnnex}}/>
              </TouchableOpacity>
              <View style={{height:45,flexDirection:'row',justifyContent:'space-between',flex:1,backgroundColor:'#fff',paddingHorizontal:10,alignItems:'center'}}>
                   <Text style={{fontSize:16,color:"#000"}}>{data.specTitle}</Text>

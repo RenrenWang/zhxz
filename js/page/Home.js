@@ -79,11 +79,12 @@ export default class Home extends React.Component {
     renderColumn() {
         let style = {
             icon: {
-                width: 60,
-                height: 60
+                width: 40,
+                height: 40
             },
             font: {
-                fontSize: 16,
+                marginTop:5,
+                fontSize: 15,
                 color: "#fff"
             },
             item: {
@@ -153,7 +154,10 @@ export default class Home extends React.Component {
                         backgroundColor: 'transparent'
                     }} key={index}>
 
-                        <Image  style={{ width, height: swiperHeight }} source={{uri:'http://121.40.241.28:7070/zhxz/'+item.lpUri}} />
+                        <Image 
+                        resizeMode="stretch"
+                        
+                         style={{ width, height: swiperHeight }} source={{uri:'http://121.40.241.28:7070/zhxz/'+item.lpUri}} />
 
                     </View>
                  })}
@@ -237,7 +241,9 @@ export default class Home extends React.Component {
 
                             'trailing': false
                         })} style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                            <Image style={{ height: 35, width: 35, tintColor: item.iconColor }} source={item.icon} />
+                            <View>
+                                  <Image style={{ height: 35, width: 35, tintColor: item.iconColor }} source={item.icon} />
+                            </View>
                             <Text style={{ marginTop: 5 }}>{item.title}</Text>
                         </TouchableOpacity>
                     </View>

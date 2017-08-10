@@ -56,7 +56,7 @@ export default class OpenD extends React.Component {
    }
     getData() {
        //alert(this.props.navigation.state.params.id);
-
+                 console.log(this.props.navigation.state.params.id);
 
         this.cancelable = Tool.makeCancelable(fetch('http://121.40.241.28:7070/zhxz/app/newsAction.action?affType=DF&specId=' + this.props.navigation.state.params.id));
 
@@ -71,7 +71,7 @@ export default class OpenD extends React.Component {
                    
                     this.setState({
                         data: responseJson.data[0],
-                 
+                        
                         isLoading: false
                       
                     })
@@ -123,22 +123,41 @@ export default class OpenD extends React.Component {
                             style={{ flexDirection: 'column', flex: 1 }}>
 
                               <View
-             style={{flexDirection:'column',height:210,borderBottomColor:Colors.dColor,borderBottomWidth:1}}
+             style={{flexDirection:'column',borderBottomColor:Colors.dColor,borderBottomWidth:1}}
              >
              <TouchableOpacity
              >
-                   <Image  style={{width,height:210-45}} source={{uri:'http://121.40.241.28:7070/zhxz/'+data.specAnnex}}/>
+                   <Image  
+                    resizeMode="stretch"
+                   style={{width,height:210-45}} source={{uri:'http://121.40.241.28:7070/zhxz/'+data.specAnnex}}/>
              </TouchableOpacity>
-             <View style={{height:45,flexDirection:'row',justifyContent:'space-between',flex:1,backgroundColor:'#fff',paddingHorizontal:10,alignItems:'center'}}>
-                  <Text style={{fontSize:16,color:"#000"}}>{data.specTitle}</Text>
+             <View style={{flexDirection:'row',justifyContent:'space-between',flex:1,backgroundColor:'#fff',paddingHorizontal:10,paddingVertical:5,alignItems:'center'}}>
+                 <View>
+                       <Text style={{fontSize:16,color:"#000"}}>{data.specTitle}</Text>
+                        <Text style={{fontSize:20,color:"#f00"}}>￥{data.specPrice}</Text>
+                 </View>
                   <View style={{flexDirection:'row'}}>
                       <Text style={{fontSize:16,color:'#999'}}>{data.allnums}</Text>
                       <Image   style={{height:22,width:22,tintColor:"#999"}}  source={require('../../res/images/collectIcon.png')} />
                   </View>
              </View>
              </View>
-              <View style={{marginTop:15,padding:10,backgroundColor:'#fff'}}>
-                    <Text>{data.specDescription}</Text>
+                {/* <View style={{marginTop:15,padding:10,backgroundColor:'#fff',borderBottomWidth:1,borderBottomColor:'#f4f4f4'}}>
+                    <Text style={{fontSize:16,marginTop:5,color:'#000'}}>详情</Text>
+                   
+              </View>    */}
+               <View style={{marginTop:15,padding:10,backgroundColor:'#fff'}}>
+                    <Text style={{fontSize:16,marginTop:5}}>地址：{data.specAddress}</Text>
+                    <Text  style={{fontSize:16,marginTop:5}}>联系人：{data.specPerson}</Text>
+                    <Text  style={{fontSize:16,marginTop:5}}>联系电话：{data.specPhone}</Text>
+              </View>  
+               <View style={{marginTop:15,padding:10,backgroundColor:'#fff',borderBottomWidth:1,borderBottomColor:'#f4f4f4'}}>
+                    <Text style={{fontSize:16,marginTop:5,color:'#000'}}>详情</Text>
+                   
+              </View>    
+              <View style={{padding:10,backgroundColor:'#fff'}}>
+                  
+                    <Text style={{fontSize:16,textAlign:'left'}}>{data.specDescription}</Text>
               </View>                  
                          
 
